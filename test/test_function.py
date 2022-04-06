@@ -6,7 +6,12 @@ import json
 
 def test_function():
 
-    df_train = pd.read_json('/home/ramrao0102/project2/yummly.json')
+
+    with open('/home/ramrao0102/project2/yummly.json', 'r') as datafile:
+    
+        data = json.load(datafile)
+    
+    df_train = pd.DataFrame(data)
 
     all_cuisines = classifier.find_cuisines(df_train)
 
