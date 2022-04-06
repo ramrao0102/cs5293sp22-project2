@@ -16,7 +16,11 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 def read_data():
 
-    df_train = pd.read_json('yummly.json')
+    with open('yummly.json', 'r') as datafile:
+    
+        data = json.load(datafile)
+    
+    df_train = pd.DataFrame(data)
 
     df_train = df_train.iloc[:32500]
         
