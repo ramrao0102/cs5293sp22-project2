@@ -7,7 +7,7 @@ import json
 def test_function():
 
 
-    with open('/home/ramrao0102/project2/yummly.json', 'r') as datafile:
+    with open('yummly.json', 'r') as datafile:
     
         data = json.load(datafile)
     
