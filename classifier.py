@@ -11,74 +11,84 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.metrics.pairwise import cosine_similarity
 
-if __name__ =='__main__':
 
-    def read_dataframe():
+def read_data():
 
-        df_train = pd.read_json('/home/ramrao0102/project2/yummly.json')
+    df_train = pd.read_json('/home/ramrao0102/project2/yummly.json')
 
-        df_train = df_train.iloc[:32500]
+    df_train = df_train.iloc[:32500]
         
-        return df_train
+    return df_train
+
+def len_dataframe(df):
+
+    len_df = len(df)
+
+    return len_df
 
 
-    def remove_space(df):
+def remove_space(df):
 
-        for i in df.index:
-            for j in range(len(df['ingredients'][i])):
-                df['ingredients'][i][j] = df['ingredients'][i][j].replace(" ", "")
+    for i in df.index:
+        for j in range(len(df['ingredients'][i])):
+            df['ingredients'][i][j] = df['ingredients'][i][j].replace(" ", "")
 
-        return df
+    return df
 
 
-    def find_cuisines(df):
+def find_cuisines(df):
         
-        all_cuisines = set(df['cuisine'])
+    all_cuisines = set(df['cuisine'])
 
-        return all_cuisines
-
-
-    def createset_ingredients(df):
-
-        all_ingredients = set()
-
-        for ingredients in df['ingredients']:
-            all_ingredients = all_ingredients | set(ingredients)
-
-        return all_ingredients
+    return all_cuisines
 
 
-    def stringify_ingredients(df):
+def createset_ingredients(df):
 
-         return [' '.join(ingredients) for ingredients in df['ingredients']]
+    all_ingredients = set()
+
+    for ingredients in df['ingredients']:
+        all_ingredients = all_ingredients | set(ingredients)
+
+    return all_ingredients
 
 
-    def createvectorizer(ingredients):
+def stringify_ingredients(df):
 
-        tf = TfidfVectorizer()
-        tf_idf_matrix = tf.fit_transform(ingredients)
+    return [' '.join(ingredients) for ingredients in df['ingredients']]
 
-        return tf_idf_matrix
+
+def createvectorizer(ingredients):
+
+    tf = TfidfVectorizer()
+    tf_idf_matrix = tf.fit_transform(ingredients)
+
+    return tf_idf_matrix
     
 
-    def create_cosinematrix(matrix):
+def create_cosinematrix(matrix):
 
-        doc_sim = cosine_similarity(matrix)
+    doc_sim = cosine_similarity(matrix)
 
-        doc_sim_df = pd.DataFrame(doc_sim)
+    doc_sim_df = pd.DataFrame(doc_sim)
 
-        return doc_sim_df
+    return doc_sim_df
 
 
-    def createdf_ingredients(ingredients):
+def createdf_ingredients(ingredients):
 
-        ing_df = pd.DataFrame(ingredients)
+    ing_df = pd.DataFrame(ingredients)
 
-        return ing_df
+    return ing_df
 
-    df_train = read_dataframe() 
+
+if __name__ =='__main__':
+ 
+    df_train = read_data() 
 
     df_train = remove_space(df_train)
+
+    len_df = len_dataframe(df_train) 
 
     print(df_train.tail())
 
