@@ -5,6 +5,8 @@ import pandas as pd
 
 import json
 
+import sys
+
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
@@ -96,17 +98,17 @@ if __name__ =='__main__':
 
     len_df = len_dataframe(df_train) 
 
-    print(df_train.tail())
+    #print(df_train.tail())
 
     all_cuisines = find_cuisines(df_train)
     
-    print(all_cuisines)
+    #print(all_cuisines)
 
     
     all_ingredients = createset_ingredients(df_train)
 
 
-    print(len(all_ingredients))
+    #print(len(all_ingredients))
 
     vocabulary = {}
 
@@ -116,18 +118,57 @@ if __name__ =='__main__':
 
     str_train_ingredients = stringify_ingredients(df_train)
 
-    str_train_ingredients.append('paprika banana ricekrispies')
+    
+    arg_ls = sys.argv
+
+    ingr_list = []
+
+    
+    for j in range(len(arg_ls)):
+
+        if arg_ls[j] == "--N":
+
+            no_of_closematches = arg_ls[j+1]
+
+        if arg_ls[j] == "--ingredient":
+            
+            ingr_list.append(arg_ls[j+1])
+
+    
+
+    for i in range(len(ingr_list)):
+
+        ingr_list[i] = ingr_list[i].replace(" ", "")
+
+    
+
+    
+    str = ""
+
+    for i in range(len(ingr_list)):
+
+        if i == 0:
+            str += ingr_list[i]
+
+        else:
+            str += " " + ingr_list[i]
+
+    
+    
+
+
+    str_train_ingredients.append(str)
  
 
     tf_idf_matrix = createvectorizer(str_train_ingredients)
 
-    print(tf_idf_matrix.shape)
+    #print(tf_idf_matrix.shape)
 
 
     doc_sim_df = create_cosinematrix(tf_idf_matrix)
 
 
-    print(doc_sim_df.head())
+    #print(doc_sim_df.head())
 
 
     ing_df = createdf_ingredients(str_train_ingredients)
@@ -135,19 +176,55 @@ if __name__ =='__main__':
     ing1 = ing_df[0].values
 
 
-    ingredient_similarities = doc_sim_df[32500].values
+    ingredient_similarities = doc_sim_df[len(df_train)].values
 
-    print(ingredient_similarities)
+    no_in_array = int(no_of_closematches) + 2
 
-    ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:6]
+    ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:no_in_array]
 
-    print(type(ingre_simil_idxs))
+    #print(type(ingre_simil_idxs))
 
     similar_ingredients = ing1[ingre_simil_idxs]
 
-    print(similar_ingredients)
+    #print(similar_ingredients)
 
-    print(df_train['id'][ingre_simil_idxs] , df_train['cuisine'][ingre_simil_idxs])
+    cuisineids = df_train['id'][ingre_simil_idxs].values
+    
+    cuisines =  df_train['cuisine'][ingre_simil_idxs].values
 
-    print(doc_sim_df[32500][ingre_simil_idxs])
+    cosinescores = doc_sim_df[len(df_train)][ingre_simil_idxs].values
+    
+    cuisineids = cuisineids.tolist()
+    
+    cuisines = cuisines.tolist()
+    
+    cosinescores = cosinescores.tolist()
+    
+    mylist = []
 
+    for i in range(len(cuisineids)):
+        mydict = {'id': None, 'Score': None}
+        if i >=1:
+            mydict['id'] = cuisineids[i]
+            mydict['Score'] = cosinescores[i]
+        mylist.append(mydict)
+        
+    mylist = mylist[1:]
+
+    #print(mylist)
+            
+    mydictfinal = {}
+
+    mydictfinal.update([('cuisine', cuisines[0])])
+
+    mydictfinal.update([('score', cosinescores[0])])
+
+    mydictfinal.update([('closest', mylist)])
+
+    #print(mydictfinal) 
+    
+    jsonString = json.dumps(mydictfinal, indent=4)
+    print(jsonString)
+     
+    
+ 
