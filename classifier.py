@@ -24,8 +24,7 @@ def read_data():
     
     df_train = pd.DataFrame(data)
 
-    df_train = df_train.iloc[:32500]
-        
+            
     return df_train
 
 def len_dataframe(df):
