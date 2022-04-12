@@ -54,7 +54,7 @@ Ingredients are passed in from the console using the following command line inpu
 
 pipenv run python project2.py --N 5 --ingredient paprika \ <br>
                                     --ingredient banana \ <br>
-                                    --ingredient "rice krispes"<br>
+                                    --ingredient "rice krispies"<br>
 Note that 5 is the # of cuisines that most closely match the best cuisine.<br>
                                     
 
