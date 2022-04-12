@@ -47,6 +47,7 @@ def find_cuisines(df):
         
     all_cuisines = set(df['cuisine'])
 
+    
     return all_cuisines
 
 
@@ -70,6 +71,7 @@ def createvectorizer(ingredients):
     tf = TfidfVectorizer()
     tf_idf_matrix = tf.fit_transform(ingredients)
 
+    
     return tf_idf_matrix
     
 

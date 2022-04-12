@@ -1,12 +1,19 @@
+
 import pytest
 import sklearn
 import project2
 import pandas as pd
 import json
 
-def test_function():
 
+def test_cuisinescount():
+
+    
     df_train = project2.read_data()
 
-    if len(df_train) > 0:
+
+    all_cuisines = project2.find_cuisines(df_train)
+
+    if len(all_cuisines) == 20:
+
         assert True
