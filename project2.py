@@ -24,7 +24,6 @@ def read_data():
     
     df_train = pd.DataFrame(data)
 
-            
     return df_train
 
 
@@ -67,6 +66,8 @@ def read_csv_data():
 
 
     df1.drop(columns = ['ingredients1', 'ingredients2', 'ingredients3', 'ingredients4'], inplace =True)
+
+    df1 = df1.iloc[0:35000]
 
     return df1
 
@@ -144,12 +145,12 @@ if __name__ =='__main__':
     len_df = len_dataframe(df_train) 
 
     df_csv = read_csv_data()
-    
+   
     # below code is to concatenante the json input file and the csv file
 
     combined_df = pd.concat([df_train, df_csv])
 
-    print(combined_df.tail(25))
+    combined_df.reset_index(drop=True, inplace=True)
 
     #print(df_train.tail())
 
@@ -171,7 +172,7 @@ if __name__ =='__main__':
 
     str_train_ingredients = stringify_ingredients(df_train)
 
-    
+        
     arg_ls = sys.argv
 
     ingr_list = []
@@ -206,15 +207,19 @@ if __name__ =='__main__':
         else:
             str += " " + ingr_list[i]
 
-    
-    str_train_ingredients.append(str)
  
     # the below 2 lines help create a list that includes ingredients from both df_train and df_csv
 
-    str_train_ingredients1 = stringify_ingredients(df_csv)
+    #str_train_ingredients1 = stringify_ingredients(df_csv)
     
-    str_train_ingredients.extend(str_train_ingredients1)
+    #print(str_train_ingredients1)
 
+    
+    str_train_ingredients.extend(df_csv['ingredients'])
+
+    str_train_ingredients.append(str)
+
+    #print(str_train_ingredients)
 
     tf_idf_matrix = createvectorizer(str_train_ingredients)
 
@@ -236,37 +241,58 @@ if __name__ =='__main__':
     # cusines first and then the cuusine ids. cusineids index position only extends to end of 
     # oolumn positions in the json file or the df_train matrix
 
-    ingredient_similarities = doc_sim_df[len(df_train)].values
+    ingredient_similarities = doc_sim_df[len(combined_df)].values
 
-    ingredient_similarities_1 = ingredient_similarities[0:len(df_train)]
+    #print(ingredient_similarities)
 
-    # print(type(ingredient_similarities))
+    ingredient_similarities_1 = ingredient_similarities[0:(len(df_train))]
+
+    #print(ingredient_similarities_1)
 
     no_in_array = int(no_of_closematches) + 2
 
-    
     # the below 2 lines provide the index position for the cuisines first and the line below
     # that line shows the index positions for the cuisine ids.
 
     ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:2]
 
-    # print(ingre_simil_idxs)
+    #print(ingre_simil_idxs)
+
+    #print(ingre_simil_idxs[0])
+
+    #print(type(ingre_simil_idxs[0]))
+
+    ingre_simil_idxs_2 = np.argsort(-ingredient_similarities_1)[1:no_in_array-1]
 
     ingre_simil_idxs_1 = np.argsort(-ingredient_similarities_1)[2:no_in_array]
 
-    # print(type(ingre_simil_idxs))
+    #print(ingre_simil_idxs_1)
 
     similar_ingredients = ing1[ingre_simil_idxs]
 
     # print(similar_ingredients)
 
-    cuisineids = df_train['id'][ingre_simil_idxs_1].values
-    
+    if ingre_simil_idxs[0] > (len(df_train)-1):
+
+        cuisineids = df_train['id'][ingre_simil_idxs_2].values
+   
+    else:
+
+        cuisineids = df_train['id'][ingre_simil_idxs_1].values
+
+    #cuisines = combined_df['cuisine'][11]
+
     cuisines =  combined_df['cuisine'][ingre_simil_idxs].values
 
-    cosinescores = doc_sim_df[len(df_train)][ingre_simil_idxs].values
+    cosinescores = doc_sim_df[len(combined_df)][ingre_simil_idxs].values
     
-    cosinescores1 = doc_sim_df[len(df_train)][ingre_simil_idxs_1].values
+    if ingre_simil_idxs[0] > (len(df_train)-1):
+
+        cosinescores1 = doc_sim_df[len(combined_df)][ingre_simil_idxs_2].values
+        
+    else:        
+
+        cosinescores1 = doc_sim_df[len(combined_df)][ingre_simil_idxs_1].values
     
     cuisineids = cuisineids.tolist()
     
@@ -305,7 +331,7 @@ if __name__ =='__main__':
     mydictfinal.update([('closest', mylist)])
 
     # print(mydictfinal) 
-    
+   
     jsonString = json.dumps(mydictfinal, indent=4)
     print(jsonString)
      
