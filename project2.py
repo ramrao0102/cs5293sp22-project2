@@ -27,6 +27,39 @@ def read_data():
             
     return df_train
 
+
+def read_csv_data():
+
+    df1 = pd.read_csv('srep00196-s3.csv', low_memory = False , on_bad_lines='skip')
+
+    df1['ingredients1'] = df1['ingr1'].fillna('') + ' ' +df1['ingr2'].fillna('') + ' ' + df1['ingr3'].fillna('')+ ' ' +df1['ingr4'].fillna('') + ' ' +df1['ingr5'].fillna('') + df1['ingr6'].fillna('') + ' ' +df1['ingr7'].fillna('') + ' ' + df1['ingr8'].fillna('')+ ' ' +df1['ingr9'].fillna('') + ' ' +df1['ingr10'].fillna('')
+
+    df1.drop(columns= ['ingr1', 'ingr2', 'ingr3', 'ingr4', 'ingr5' , 'ingr6', 'ingr7', 'ingr8', 'ingr9', 'ingr10'],  inplace=True)
+
+
+    df1['ingredients2'] = df1['ingr11'].fillna('') + ' ' +df1['ingr12'].fillna('') + ' ' + df1['ingr13'].fillna('') + ' ' +df1['ingr14'].fillna('') + ' ' +df1['ingr15'].fillna('') + ' ' + df1['ingr16'].fillna('') + ' ' +df1['ingr17'].fillna('') + ' ' + df1['ingr18'].fillna('')+ ' ' +df1['ingr19'].fillna('') + ' ' +df1['ingr20'].fillna('')
+
+    df1.drop(columns= ['ingr11', 'ingr12', 'ingr13', 'ingr14', 'ingr15', 'ingr16', 'ingr17', 'ingr18', 'ingr19', 'ingr20'],  inplace=True)
+
+
+    df1['ingredients3'] = df1['ingr21'].fillna('') + ' ' +df1['ingr22'].fillna('') + ' ' + df1['ingr23'].fillna('')+ ' ' +df1['ingr24'].fillna('') + ' ' +df1['ingr25'].fillna('') + ' ' +  df1['ingr26'].fillna('') + ' ' +df1['ingr27'].fillna('') + ' ' + df1['ingr28'].fillna('')+ ' ' +df1['ingr29'].fillna('') + ' ' +df1['ingr30'].fillna('')
+
+    df1.drop(columns= ['ingr21', 'ingr22', 'ingr23', 'ingr24', 'ingr25', 'ingr26', 'ingr27', 'ingr28', 'ingr29', 'ingr30'],  inplace=True)
+
+
+    df1['ingredients4'] = df1['ingr31'].fillna('') + ' ' +df1['ingr32'].fillna('')
+
+    df1.drop(columns= ['ingr31', 'ingr32'],  inplace=True)
+
+
+    df1['ingredients'] = df1['ingredients1'] + ' ' + df1['ingredients2'] + ' ' +  df1['ingredients3'] + ' ' + df1['ingredients4']
+
+
+    df1.drop(columns = ['ingredients1', 'ingredients2', 'ingredients3', 'ingredients4'], inplace =True)
+
+    return df1
+
+
 def len_dataframe(df):
 
     len_df = len(df)
@@ -99,6 +132,15 @@ if __name__ =='__main__':
 
     len_df = len_dataframe(df_train) 
 
+    df_csv = read_csv_data()
+
+    #print(df_csv.head())
+
+    # below code is to concatenante the json input file and the csv file
+
+    combined_df = pd.concat([df_train, df_csv])
+
+
     #print(df_train.tail())
 
     all_cuisines = find_cuisines(df_train)
@@ -155,11 +197,14 @@ if __name__ =='__main__':
             str += " " + ingr_list[i]
 
     
-    
-
-
     str_train_ingredients.append(str)
  
+    # the below 2 lines help create a list that includes ingredients from both df_train and df_csv
+
+    str_train_ingredients1 = stringify_ingredients(df_csv)
+    
+    str_train_ingredients.extend(str_train_ingredients1)
+
 
     tf_idf_matrix = createvectorizer(str_train_ingredients)
 
@@ -177,11 +222,25 @@ if __name__ =='__main__':
     ing1 = ing_df[0].values
 
 
+    # the below 2 lines find the array index positions in the cosine_similarity matrix for
+    # cusines first and then the cuusine ids. cusineids index position only extends to end of 
+    # oolumn positions in the json file or the df_train matrix
+
     ingredient_similarities = doc_sim_df[len(df_train)].values
+
+    ingredient_similarities_1 = ingredient_similarities[0:len(df_train)]
+
+    #print(type(ingredient_similarities))
 
     no_in_array = int(no_of_closematches) + 2
 
-    ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:no_in_array]
+    
+    # the below 2 lines provide the index position for the cuisines first and the line below
+    # that line shows the index positions for the cuisine ids.
+
+    ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:2]
+
+    ingre_simil_idxs_1 = np.argsort(-ingredient_similarities_1)[2:no_in_array]
 
     #print(type(ingre_simil_idxs))
 
@@ -189,18 +248,28 @@ if __name__ =='__main__':
 
     #print(similar_ingredients)
 
-    cuisineids = df_train['id'][ingre_simil_idxs].values
+    cuisineids = df_train['id'][ingre_simil_idxs_1].values
     
-    cuisines =  df_train['cuisine'][ingre_simil_idxs].values
+    cuisines =  combined_df['cuisine'][ingre_simil_idxs].values
 
     cosinescores = doc_sim_df[len(df_train)][ingre_simil_idxs].values
     
+    cosinescores1 = doc_sim_df[len(df_train)][ingre_simil_idxs_1].values
+    
     cuisineids = cuisineids.tolist()
     
+    cuisineids = [0.0] + cuisineids
+
     cuisines = cuisines.tolist()
     
     cosinescores = cosinescores.tolist()
-    
+
+    cosinescores1 = cosinescores1.tolist()
+
+    cosinescores.extend(cosinescores1)
+
+    #print(cosinescores)
+
     mylist = []
 
     for i in range(len(cuisineids)):
@@ -208,6 +277,7 @@ if __name__ =='__main__':
         if i >=1:
             mydict['id'] = cuisineids[i]
             mydict['Score'] = cosinescores[i]
+        
         mylist.append(mydict)
         
     mylist = mylist[1:]
