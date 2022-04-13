@@ -42,10 +42,10 @@ The project.py file contains several functions.  The functions and the purpose o
 5) createset_ingredients(df): creates a set of ingredients in the dataframe. <br>
 6) stringify_ingredients(df): reads in the dataframe and takes the ingrdedients column which has disjointed strings of <br>ingredients and combines them into <br>
    a single string but does leave white space between each type of ingredient. <br>
-8) createvectorizer(ingredients): takes the ingredients from the dataframe that has been processed with the stringify_ingredients>br> 
+7) createvectorizer(ingredients): takes the ingredients from the dataframe that has been processed with the stringify_ingredients>br> 
    and creates a TfidfVectorizer and returns a transformer tf_idfmatrix of the ingredients.<br>
-9) create_cosinematrix(matrix):  takes in the tf_idfmatrix of the ingredients and returns a cosine_similarity matrix that <br>presents the cosine_similarity score   between the ingredients. <br>
-10) createdf_ingredients(ingredients):  this is used to create a dataframe of 1 column containing the ingredients and this is <br>used to identify an array of ingredients that mostly closely match those that are passed in from the console. <br>
+8) create_cosinematrix(matrix):  takes in the tf_idfmatrix of the ingredients and returns a cosine_similarity matrix that <br>presents the cosine_similarity score   between the ingredients. <br>
+9) createdf_ingredients(ingredients):  this is used to create a dataframe of 1 column containing the ingredients and this is <br>used to identify an array of ingredients that mostly closely match those that are passed in from the console. <br>
 
 ## Console Input of Ingredients
 
