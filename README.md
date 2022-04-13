@@ -22,9 +22,12 @@ The file has the following format:
     ] <br>
   }, <br>
 
+Also, included is the file srep00196-s3.csv.  This file has more than 50,000 records. I could only use 35,000 records with the memory avialable on my VM instance. <br>
+
 ## RAM required for Execution
 
-Note that I needed to have 32GB RAM on my VM Instance for this application to complete execution with full dataset. <br>
+Note that I needed to have 64GB RAM on my VM Instance for this application to complete execution with full yummly.json dataset and 35,000 records from the <br>
+srep00196-s3.csv dataset. <br>
 
 ## Packages
 
@@ -40,11 +43,12 @@ Several packages have been included in the project2.py file.  Note also that the
 The project.py file contains several functions.  The functions and the purpose of each function is outlined below: <br>
 
 1) read_data:  used to read the .json file and load into a pandas dataframe. <br>
-2) len_dataframe(df) : reads in the dataframe and estimates the length of the dataframe. <br>
-3) remove_space(df): reads in the dataframe and removes any whitespace that is contained within a string such as say rice <br> krispies and combines it into <br> ricekrispies. <br>
-4) find_cuisines(df): reads in the dataframe and returns a set of unique cuisines. <br>
-5) createset_ingredients(df): creates a set of ingredients in the dataframe. <br>
-6) stringify_ingredients(df): reads in the dataframe and takes the ingrdedients column which has disjointed strings of <br>ingredients and combines them into <br>
+2) read_csv_data:  reads in from the csv file, combines the ingredient columns into 1 column and contains the cuisine type and ingredients in the dataframe <br>
+3) len_dataframe(df) : reads in the dataframe and estimates the length of the dataframe. <br>
+4) remove_space(df): reads in the dataframe and removes any whitespace that is contained within a string such as say rice <br> krispies and combines it into <br> ricekrispies. <br>
+5) find_cuisines(df): reads in the dataframe and returns a set of unique cuisines. <br>
+6) createset_ingredients(df): creates a set of ingredients in the dataframe. <br>
+7) stringify_ingredients(df): reads in the dataframe and takes the ingrdedients column which has disjointed strings of <br>ingredients and combines them into <br>
    a single string but does leave white space between each type of ingredient. <br>
 7) createvectorizer(ingredients): takes the ingredients from the dataframe that has been processed with the stringify_ingredients>br> 
    and creates a TfidfVectorizer and returns a transformer tf_idfmatrix of the ingredients.<br>
@@ -65,7 +69,9 @@ Note that 5 is the # of cuisines that most closely match the best cuisine.<br>
 1) The passed in ingredients from the console have the spaces removed, for example between rice and krispies and then also <br>
 stringified to convert all passed in strings into 1 string with white space between each ingredient. <br>
 
-2) We call the stringify_ingredients to stringify the ingredients in the dataframe and then append the ingredients passed in <br>
+2) We conctatenate the df_train dataframe from the yummly.json dataset and df_csv dataset into combined_df dataset. <br>
+
+2) We call the stringify_ingredients to stringify the ingredients in the dataframe (json file and csv file) and then append the ingredients passed in <br>
    from the console as the final element <br>
 
 3) We call the createvectorizer function to make a Tfidf matrix of the ingredients.<br>
@@ -78,8 +84,13 @@ from the console.  Note I am using length of the initial dataframe created from 
 index position of the ingredients passed in to the ing_df dataframe of the ingredients. <br> 
 
 6) Once we have them depending on the number of closest cuisine matches we need to the best cuisine, we then <br>
-  get the index positions of those ingredientss as numpy array using the following command:<br>
-   ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:no_in_array]     <br>
+  get the index positions of those ingredients as numpy array using the following command:<br>
+   Best Cuisine:  ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:2]<br>
+   Best Cosinescores and Cuisineids (top line is used if the best cuisine is in the df_csv dataset and the second line is used if best cuisine is in the df_train <br>
+   dataset. <br>
+    ingre_simil_idxs_2 = np.argsort(-ingredient_similarities_1)[1:no_in_array-1] <br>
+    ingre_simil_idxs_1 = np.argsort(-ingredient_similarities_1)[2:no_in_array] <br>
+   
 where no_in_array is the # after --N passed in from console +2 <br>
 
 7) From there we create dictionary object to present the best cuisine and the 5 closest cuisines and transfer the contents <br>
