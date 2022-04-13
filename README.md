@@ -79,7 +79,9 @@ where no_in_array is the # after --N passed in from console +2 <br>
 7) From there we create dictionary object to present the best cuisine and the 5 closest cuisines and transfer the contents <br>
 of the dictionary to a json object to print to the console. The scores for the best cuisine is the cosine similarity score of that cuisine <br>
 relative to the ingredients passed in from the console.  The scores of the next 5 cuisines are also cosine similarity scores of those cuisines <br>
-relative to the ingredients passed in from the console.
+relative to the ingredients passed in from the console. <br>
+
+Example json output is provided below. <br>
 
 {<br>
     "cuisine": "spanish", <br>
