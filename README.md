@@ -22,6 +22,10 @@ The file has the following format:
     ] <br>
   }, <br>
 
+## RAM required for Execution
+
+Note that I needed to have 32GB RAM on my VM Instance for this application to complete execution with full dataset. <br>
+
 ## Packages
 
 Several packages have been included in the project2.py file.  Note also that the pipfile and piplock have been setup to <br>accomodate use of the noted packages. <br>
