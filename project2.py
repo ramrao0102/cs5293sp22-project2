@@ -30,7 +30,18 @@ def read_data():
 
 def read_csv_data():
 
-    df1 = pd.read_csv('srep00196-s3.csv', low_memory = False , on_bad_lines='skip')
+    colnames = []
+    
+    colnames.append('cuisine')
+
+    for i in range(33):
+
+        if i >= 2:
+
+            colnames.append('ingr' + str(i-1))
+
+
+    df1 = pd.read_csv('srep00196-s3.csv', low_memory = False , skiprows = 4, names = colnames, on_bad_lines='skip')
 
     df1['ingredients1'] = df1['ingr1'].fillna('') + ' ' +df1['ingr2'].fillna('') + ' ' + df1['ingr3'].fillna('')+ ' ' +df1['ingr4'].fillna('') + ' ' +df1['ingr5'].fillna('') + df1['ingr6'].fillna('') + ' ' +df1['ingr7'].fillna('') + ' ' + df1['ingr8'].fillna('')+ ' ' +df1['ingr9'].fillna('') + ' ' +df1['ingr10'].fillna('')
 
@@ -47,9 +58,9 @@ def read_csv_data():
     df1.drop(columns= ['ingr21', 'ingr22', 'ingr23', 'ingr24', 'ingr25', 'ingr26', 'ingr27', 'ingr28', 'ingr29', 'ingr30'],  inplace=True)
 
 
-    df1['ingredients4'] = df1['ingr31'].fillna('') + ' ' +df1['ingr32'].fillna('')
+    df1['ingredients4'] = df1['ingr31'].fillna('')
 
-    df1.drop(columns= ['ingr31', 'ingr32'],  inplace=True)
+    df1.drop(columns= ['ingr31'],  inplace=True)
 
 
     df1['ingredients'] = df1['ingredients1'] + ' ' + df1['ingredients2'] + ' ' +  df1['ingredients3'] + ' ' + df1['ingredients4']
@@ -133,13 +144,12 @@ if __name__ =='__main__':
     len_df = len_dataframe(df_train) 
 
     df_csv = read_csv_data()
-
-    #print(df_csv.head())
-
+    
     # below code is to concatenante the json input file and the csv file
 
     combined_df = pd.concat([df_train, df_csv])
 
+    print(combined_df.tail(25))
 
     #print(df_train.tail())
 
@@ -208,13 +218,13 @@ if __name__ =='__main__':
 
     tf_idf_matrix = createvectorizer(str_train_ingredients)
 
-    #print(tf_idf_matrix.shape)
+    # print(tf_idf_matrix.shape)
 
 
     doc_sim_df = create_cosinematrix(tf_idf_matrix)
 
 
-    #print(doc_sim_df.head())
+    # print(doc_sim_df.head())
 
 
     ing_df = createdf_ingredients(str_train_ingredients)
@@ -230,7 +240,7 @@ if __name__ =='__main__':
 
     ingredient_similarities_1 = ingredient_similarities[0:len(df_train)]
 
-    #print(type(ingredient_similarities))
+    # print(type(ingredient_similarities))
 
     no_in_array = int(no_of_closematches) + 2
 
@@ -240,13 +250,15 @@ if __name__ =='__main__':
 
     ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:2]
 
+    # print(ingre_simil_idxs)
+
     ingre_simil_idxs_1 = np.argsort(-ingredient_similarities_1)[2:no_in_array]
 
-    #print(type(ingre_simil_idxs))
+    # print(type(ingre_simil_idxs))
 
     similar_ingredients = ing1[ingre_simil_idxs]
 
-    #print(similar_ingredients)
+    # print(similar_ingredients)
 
     cuisineids = df_train['id'][ingre_simil_idxs_1].values
     
@@ -268,7 +280,7 @@ if __name__ =='__main__':
 
     cosinescores.extend(cosinescores1)
 
-    #print(cosinescores)
+    # print(cosinescores)
 
     mylist = []
 
@@ -282,7 +294,7 @@ if __name__ =='__main__':
         
     mylist = mylist[1:]
 
-    #print(mylist)
+    # print(mylist)
             
     mydictfinal = {}
 
@@ -292,7 +304,7 @@ if __name__ =='__main__':
 
     mydictfinal.update([('closest', mylist)])
 
-    #print(mydictfinal) 
+    # print(mydictfinal) 
     
     jsonString = json.dumps(mydictfinal, indent=4)
     print(jsonString)
