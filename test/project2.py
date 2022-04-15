@@ -145,7 +145,7 @@ if __name__ =='__main__':
     len_df = len_dataframe(df_train) 
 
     df_csv = read_csv_data()
-
+   
     # below code is to concatenante the json input file and the csv file
 
     combined_df = pd.concat([df_train, df_csv])
@@ -219,6 +219,8 @@ if __name__ =='__main__':
 
     str_train_ingredients.append(str)
 
+    #print(str_train_ingredients)
+
     tf_idf_matrix = createvectorizer(str_train_ingredients)
 
     # print(tf_idf_matrix.shape)
@@ -241,22 +243,18 @@ if __name__ =='__main__':
 
     ingredient_similarities = doc_sim_df[len(combined_df)].values
 
-    ingredient_similarities11 = ingredient_similarities[0: (len(combined_df)-1)]
-
     #print(ingredient_similarities)
 
-    ingredient_similarities_1 = ingredient_similarities11[0:(len(df_train))]
+    ingredient_similarities_1 = ingredient_similarities[0:(len(df_train))]
 
     #print(ingredient_similarities_1)
 
-    no_in_array = int(no_of_closematches) + 1
+    no_in_array = int(no_of_closematches) + 2
 
     # the below 2 lines provide the index position for the cuisines first and the line below
     # that line shows the index positions for the cuisine ids.
 
-    ingre_simil_idxs0 = np.argsort(-ingredient_similarities)
-
-    ingre_simil_idxs = np.argsort(-ingredient_similarities11)[0:1]
+    ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:2]
 
     #print(ingre_simil_idxs)
 
@@ -264,9 +262,9 @@ if __name__ =='__main__':
 
     #print(type(ingre_simil_idxs[0]))
 
-    ingre_simil_idxs_2 = np.argsort(-ingredient_similarities_1)[0:no_in_array-1]
+    ingre_simil_idxs_2 = np.argsort(-ingredient_similarities_1)[1:no_in_array-1]
 
-    ingre_simil_idxs_1 = np.argsort(-ingredient_similarities_1)[1:no_in_array]
+    ingre_simil_idxs_1 = np.argsort(-ingredient_similarities_1)[2:no_in_array]
 
     #print(ingre_simil_idxs_1)
 
