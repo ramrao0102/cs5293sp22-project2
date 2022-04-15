@@ -131,8 +131,18 @@ Example json output is provided below. <br>
 
 Several tests were developed to test the following: <br>
     
-1) check for creation of the dataframe by checking length of dataframe equal to known length of the index sliced dataframe via an   assert statement. 
-2) check that find_cuisines function is running correctly by comparing length of the set of unique cuisines to the known length via an assert statement. <br>
-3) check that the create_vectorizer function executes by running a small subset of the dataframe and confirm that the length matches the known length. <br>
-4) check that create_cosinematrix(matrix) function executes by running a small subse of the dataframe parsed through the Tfidf function and check that the length of the matrx matches the known length. <br>
+1) test_function.py- check for creation of the dataframe by checking length of dataframe equal to known length of the index sliced dataframe via an   assert statement. 
+2) test_cuisinecount.py - check that find_cuisines function is running correctly by comparing length of the set of unique cuisines to the known length via an assert statement. <br>
+3) test_tfidf.py - check that the create_vectorizer function executes by running a small subset of the dataframe and confirm that the length matches the <br>known length. <br>
+4) test_cosinematrix.py - check that create_cosinematrix(matrix) function executes by running a small subse of the dataframe parsed through the Tfidf <br>
+function and check that the length of the matrx matches the known length. <br>
+5) test_fulljson.py - Here I am loading just a fraction of the json dataset.  I am passing the exact contents of the ingredients in one of the cuisines and<br> checking to see if the # of cosinescores returned matches what is expected and that the returned cuisinescore is >0.9.  It is actually 1 but to<br>
+avoid any errros I am using 0.9. <br>
+6) test_fullcsv file - Here I am loading just a fraction of the full_csv dataset.  I am passing the exact contents of the ingredients in one of the cuisines<br> and checking to see if the # of cosinescores returned matches what is expected and that the returned cuisinescore is >0.9.  It is actually<br> 
+1 but to avoid any errros I am using 0.9. <br>
+7) test_combined.py - Here I am loading just a fraction of both the json and the full_csv datasets.  I am passing the exact contents of the ingredients in<br> 
+one of the cuisines from the json dataset and checking to see if the # of cosinescores returned matches what is expected and that the returned cuisinescore is >0.9.  It is actually 1 but to avoid any errros I am using 0.9. <br>
+8) test_combined1.py - Here I am loading just a fraction of both the json and the full_csv datasets.  I am passing the exact contents of the ingredients <br>
+in one of the cuisines from the csv dataset and checking to see if the # of cosinescores returned matches what is expected and that the returned cuisinescore<br> is >0.9.  It is actually 1 but to avoid any errros I am using 0.9. <br>
+
     
