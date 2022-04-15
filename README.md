@@ -85,11 +85,7 @@ index position of the ingredients passed in to the ing_df dataframe of the ingre
 
 6) Once we have them depending on the number of closest cuisine matches we need to the best cuisine, we then <br>
   get the index positions of those ingredients as numpy array using the following command:<br>
-   Best Cuisine:  ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:2]<br>
-   Best Cosinescores and Cuisineids (top line is used if the best cuisine is in the df_csv dataset and the second line is used if best cuisine is in the df_train <br>
-   dataset. <br>
-    ingre_simil_idxs_2 = np.argsort(-ingredient_similarities_1)[1:no_in_array-1] <br>
-    ingre_simil_idxs_1 = np.argsort(-ingredient_similarities_1)[2:no_in_array] <br>
+   They are on lines 257-297 of the project2.py code.<br>
    
 where no_in_array is the # after --N passed in from console +2 <br>
 
