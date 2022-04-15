@@ -23,5 +23,4 @@ def test_tfidf():
 
     cosine_matrix = project2.create_cosinematrix(tfidf_matrix)
 
-    if(len(cosine_matrix)) == 100:
-        assert True
+    assert (len(cosine_matrix)) == 100

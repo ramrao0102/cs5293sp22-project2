@@ -55,7 +55,7 @@ def test_fulljson():
 
     no_in_array = 5 + 1
 
-    ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:no_in_array]
+    ingre_simil_idxs = np.argsort(-ingredient_similarities)[0:no_in_array]
 
     cuisineids = df_train['id'][ingre_simil_idxs].values
 
@@ -69,10 +69,8 @@ def test_fulljson():
     
     cosinescores = cosinescores.tolist()
 
-    if len(cosinescores) == 6:
-        assert True
+    assert len(cosinescores) == 6
      
-    if cosinescores[0] ==1:
-        assert True
+    assert cosinescores[0]>0.9
     
  

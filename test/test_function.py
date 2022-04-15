@@ -8,5 +8,4 @@ def test_function():
 
     df_train = project2.read_data()
 
-    if len(df_train) > 0:
-        assert True
+    assert len(df_train) > 0

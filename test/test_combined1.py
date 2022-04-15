@@ -139,11 +139,11 @@ def test_combined():
     cosinescores.extend(cosinescores1)
 
 
-    if (cosinescores[0] >0.9):
-        assert True
+    assert cosinescores[0] >0.9
+    
 
-    if (len(cosinescores) ==0):
-        assert True
+    assert (len(cosinescores)) ==6
+    
      
     
  

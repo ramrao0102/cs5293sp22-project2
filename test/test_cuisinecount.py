@@ -14,6 +14,4 @@ def test_cuisinescount():
 
     all_cuisines = project2.find_cuisines(df_train)
 
-    if len(all_cuisines) == 20:
-
-        assert True
+    assert len(all_cuisines) == 20

@@ -41,7 +41,7 @@ def test_full_csv():
 
     no_in_array = 5 + 1
 
-    ingre_simil_idxs_1 = np.argsort(-ingredient_similarities_11)[0:no_in_array-1]
+    ingre_simil_idxs_1 = np.argsort(-ingredient_similarities_11)[0:no_in_array]
 
     cuisines =  df_csv['cuisine'][ingre_simil_idxs_1].values
 
@@ -51,11 +51,10 @@ def test_full_csv():
     
     cosinescores = cosinescores.tolist()
 
-    if len(cosinescores) == 6:
-        assert True
+    assert len(cosinescores) == 6
 
-    if cosinescores[0] > 0.9:
-        assert True
+    assert cosinescores[0] > 0.9
+        
      
     
  

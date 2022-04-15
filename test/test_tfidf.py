@@ -21,5 +21,4 @@ def test_tfidf():
 
     tfidf_matrix = project2.createvectorizer(ingredients)
 
-    if(tfidf_matrix.shape[0]) == 100:
-        assert True
+    assert (tfidf_matrix.shape[0]) == 100
