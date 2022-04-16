@@ -35,8 +35,8 @@ but also allows generating the 5 closest cuisine ids and cosine similarity score
 
 ## RAM required for Execution
 
-Note that I needed to have 64GB RAM on my VM Instance for this application to complete execution with full yummly.json dataset and 35,000 records from the <br>
-srep00196-s3.csv dataset. <br>
+Note that I needed to have 64GB RAM on my VM Instance for this application to complete execution with full yummly.json dataset and 35,000 <br>
+records from the srep00196-s3.csv dataset. <br>
 
 ## Packages
 
