@@ -80,8 +80,8 @@ stringified to convert all passed in strings into 1 string with white space betw
 
 2) We conctatenate the df_train dataframe from the yummly.json dataset and df_csv dataset into combined_df dataset. <br>
 
-2) We call the stringify_ingredients to stringify the ingredients in the dataframe (json file and csv file) and then append the ingredients passed in <br>
-   from the console as the final element <br>
+2) We call the stringify_ingredients to stringify the ingredients in the dataframe (json file and csv file) and then append the ingredients <br>
+passed in from the console as the final element <br>
 
 3) We call the createvectorizer function to make a Tfidf matrix of the ingredients.<br>
 
