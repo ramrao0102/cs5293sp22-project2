@@ -2,9 +2,9 @@
 
 ## Introduction
 
-This project consists of a developing code called project2.py that takes an input file called yummly.json.  The cuisine data and the ingredients needed <br>
-to make the cuisine are compared to the ingredients that are passed in from the console to identify the cuisine that can be made from the ingredients <br>
-passed from the console. The yummly file has a json format. <br>
+This project consists of a developing code called project2.py that takes an input file called yummly.json.  The cuisine data and the ingredients <br>
+needed to make the cuisine are compared to the ingredients that are passed in from the console to identify the cuisine that can be made from the <br>
+ingredients passed from the console. The yummly file has a json format. <br>
 
 The file has the following format:
 
