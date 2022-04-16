@@ -26,9 +26,10 @@ Also, included is the file srep00196-s3.csv.  This file has more than 50,000 rec
 
 ## Key Assumption
 
-Both srep00196-s3.csv and yummly.json files need to be utilized for this application.  The code has been writtwn to combine the datasets and statements have been <br>
-written to allow the user to enter ingredients on command line, and the code allows processing of the povided datset to identify the best cuisine and its cosine <br>
-similarity score frpm both datasets, but also allows generating the 5 closest cuisine ids and cosine similarity scores from 5 next closest matches.
+Both srep00196-s3.csv and yummly.json files need to be utilized for this application, and are provided on my github repository. <br>  
+The code has been writtwn to combine the datasets and statements have been written to allow the user to enter ingredients on command line, and <br>
+the code allows processing of the povided datset to identify the best cuisine and its cosine similarity score frpm both datasets, but also allows <br>
+generating the 5 closest cuisine ids and cosine similarity scores from 5 next closest matches. <br>
 
 ## RAM required for Execution
 
