@@ -24,6 +24,12 @@ The file has the following format:
 
 Also, included is the file srep00196-s3.csv.  This file has more than 50,000 records. I could only use 35,000 records with the memory avialable on my VM instance. <br>
 
+## Key Assumption
+
+Both srep00196-s3.csv and yummly.json files need to be utilized for this application.  The code has been writtwn to combine the datasets and statements have been <br>
+written to allow the user to enter ingredients on command line, and the code allows processing of the povided datset to identify the best cuisine and its cosine <br>
+similarity score frpm both datasets, but also allows generating the 5 closest cuisine ids and cosine similarity scores from 5 next closest matches.
+
 ## RAM required for Execution
 
 Note that I needed to have 64GB RAM on my VM Instance for this application to complete execution with full yummly.json dataset and 35,000 records from the <br>
