@@ -180,11 +180,11 @@ if __name__ =='__main__':
     
     for j in range(len(arg_ls)):
 
-        if arg_ls[j] == "--N":
+        if "--N" in arg_ls[j]:
 
             no_of_closematches = arg_ls[j+1]
 
-        if arg_ls[j] == "--ingredient":
+        if "--ingredient" in arg_ls[j]:
             
             ingr_list.append(arg_ls[j+1])
 
