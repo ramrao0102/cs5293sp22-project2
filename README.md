@@ -2,7 +2,9 @@
 
 ## Introduction
 
-This project consists of a developing code called project2.py that takes an input file called yummly.json.  The cuisine data and the ingredients needed to make the <br> cuisine are compared to the ingredients that are passed in from the console to identify the cuisine that can be made from the ingredients passed from the console. <br> The yummly file has a json format.
+This project consists of a developing code called project2.py that takes an input file called yummly.json.  The cuisine data and the ingredients <br>
+needed to make the cuisine are compared to the ingredients that are passed in from the console to identify the cuisine that can be made from <br>
+the ingredients passed from the console. The yummly file has a json format. <br>
 
 The file has the following format:
 
@@ -24,10 +26,17 @@ The file has the following format:
 
 Also, included is the file srep00196-s3.csv.  This file has more than 50,000 records. I could only use 35,000 records with the memory avialable on my VM instance. <br>
 
+## Key Assumption
+
+Both srep00196-s3.csv and yummly.json files need to be utilized for this application, and are provided on my github repository. <br>  
+The code has been written to combine the datasets and statements have been written to allow the user to enter ingredients on command line,<br> 
+and the code allows processing of the povided datset to identify the best cuisine and its cosine similarity score frpm both datasets, <br>
+but also allows generating the 5 closest cuisine ids and cosine similarity scores from 5 next closest matches. <br>
+
 ## RAM required for Execution
 
-Note that I needed to have 64GB RAM on my VM Instance for this application to complete execution with full yummly.json dataset and 35,000 records from the <br>
-srep00196-s3.csv dataset. <br>
+Note that I needed to have 64GB RAM on my VM Instance for this application to complete execution with full yummly.json dataset and 35,000 <br>
+records from the srep00196-s3.csv dataset. <br>
 
 ## Packages
 
@@ -71,8 +80,8 @@ stringified to convert all passed in strings into 1 string with white space betw
 
 2) We conctatenate the df_train dataframe from the yummly.json dataset and df_csv dataset into combined_df dataset. <br>
 
-2) We call the stringify_ingredients to stringify the ingredients in the dataframe (json file and csv file) and then append the ingredients passed in <br>
-   from the console as the final element <br>
+2) We call the stringify_ingredients to stringify the ingredients in the dataframe (json file and csv file) and then append the ingredients <br>
+passed in from the console as the final element <br>
 
 3) We call the createvectorizer function to make a Tfidf matrix of the ingredients.<br>
 
@@ -85,14 +94,8 @@ index position of the ingredients passed in to the ing_df dataframe of the ingre
 
 6) Once we have them depending on the number of closest cuisine matches we need to the best cuisine, we then <br>
   get the index positions of those ingredients as numpy array using the following command:<br>
-   Best Cuisine:  ingre_simil_idxs = np.argsort(-ingredient_similarities)[1:2]<br>
-   Best Cosinescores and Cuisineids (top line is used if the best cuisine is in the df_csv dataset and the second line is used if best cuisine is in the df_train <br>
-   dataset. <br>
-    ingre_simil_idxs_2 = np.argsort(-ingredient_similarities_1)[1:no_in_array-1] <br>
-    ingre_simil_idxs_1 = np.argsort(-ingredient_similarities_1)[2:no_in_array] <br>
+   They are on lines 257-297 of the project2.py code.<br>
    
-where no_in_array is the # after --N passed in from console +2 <br>
-
 7) From there we create dictionary object to present the best cuisine and the 5 closest cuisines and transfer the contents <br>
 of the dictionary to a json object to print to the console. The scores for the best cuisine is the cosine similarity score of 
 that cuisine relative to the ingredients passed in from the console.  The scores of the next 5 cuisines are also cosine similarity <br>
